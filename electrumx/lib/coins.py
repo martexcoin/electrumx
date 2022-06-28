@@ -158,6 +158,42 @@ class BitcoinSV(Coin):
     GENESIS_ACTIVATION = 620_538
 
 
+class MarteXcoin(Coin):
+    NAME = "MarteXcoin"
+    CHAIN_SIZE = 1_623_944_264_227
+    CHAIN_SIZE_HEIGHT = 709_728
+    AVG_BLOCK_SIZE = 150_000_000
+    SHORTNAME = "MXT"
+    NET = "mainnet"
+    XPUB_VERBYTES = bytes.fromhex("0488B21E")
+    XPRV_VERBYTES = bytes.fromhex("0488ADE4")
+    P2PKH_VERBYTE = bytes.fromhex("32")
+    P2SH_VERBYTES = bytes.fromhex("05")
+    WIF_BYTE = bytes.fromhex("b2")
+    GENESIS_HASH = '617fc383b07fbab3505213b41fe34f97' \
+                   '05b92d854a9f72593cb616e4726e155c'
+    #DESERIALIZER = lib_tx.DeserializerTxTime
+    #DAEMON = daemon.LegacyRPCDaemon
+    TX_COUNT = 8908766
+    TX_COUNT_HEIGHT = 1105256
+    TX_PER_BLOCK = 10
+    RPC_PORT = 51314
+    PEERS = [
+             'seed.martexcoin.org t',
+             'seed1.martexcoin.org t',
+             'seed2.martexcoin.org t',
+            ]
+
+    @classmethod
+    def header_hash(cls, header):
+        '''Given a header return the hash.'''
+        import x13_hash
+        print ('------------------------------------------------------------------')
+        print ('    Header:', bytes(header).hex())
+        print ('  Hash 256:', bytes(reversed(double_sha256(header))).hex())
+        print ('  Hash X13:', bytes(reversed(x13_hash.getPoWHash(header))).hex())
+        return x13_hash.getPoWHash(header)
+
 class BitcoinTestnetMixin:
     SHORTNAME = "XTN"
     NET = "testnet"
